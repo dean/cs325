@@ -98,6 +98,10 @@ given lines. \\
   \> return $V$\\
 \end{tabbing}
 
+\subsubsection*{Asymptotic Analysis}
+
+All three algorithms are $\theta(n)$ to each other. While each algorithm is more efficient than the last, they all iterate through the set of lines at a linear rate. 
+
 \subsection*{Correctness of Claim 2/Algorithm 3}
 
 \begin{theorem}
@@ -161,8 +165,13 @@ In order for a line to be visible, it must have at least one point on it whose x
 \subsection*{Extrapolation and Interpolation}
 
 \begin{enumerate}
-\item The biggest instance that could be solved within one hour is 
-\item 
+\item \emph{The biggest instances that could be solved within one hour were not able to be determined.}
+\item \begin{enumerate}
+\item Algorithm 1 (blue) slope is $\frac{\log(48.599125/8.711271)}{\log(700/400)} = 3.072$
+\item Algorithm 2 (red) slope is $\frac{\log(5.17444/.965603}{700/400} = 2.99$
+\item Algorithm 3 (green) slope is $\frac{\log(.00106699999999/.000685000000001}{700/400} = .792$
+\end{enumerate}
+It appears that Algorithms 1 and 2 are similar enough to each other to be $\theta$ to each other, but Algorithm 3 increases at such a lower rate that it is closer to $O$ for both 1 and 2.
 \end{enumerate}
 
 \end{document}
