@@ -19,9 +19,18 @@
 
 \begin{tabbing}
   {\sc Algorithm 1: Enumeration}\\
-  \qquad \= $x = 0$ \\
-  \> for $i = 1, \ldots, n$\\
-  \> \qquad \= $x = x+i$\\
+  \qquad \= $n = $number of lines \\
+  \> $j = 0$ \\
+  \> $i = j+1$\\
+  \> $k = i+1$\\
+  \> lines$(i,j,k)$ visible = true\\
+  \> while lines$(i,j,k) < n$\\
+  \> \qquad \= find intersection(lines$(j,k)$)\\
+  \> \qquad \= if line$(j) >$ line$(i)$\\
+  \> \qquad \= line$(i)$ visible = false\\
+  \> \qquad \= $j = j+1$\\
+  \> \qquad \= $i = i+1$\\
+  \> \qquad \= $k = k+1$\\
   \> return $x$
 \end{tabbing}
 
@@ -30,6 +39,7 @@
   \qquad \= $x = 0$ \\
   \> for $i = 1, \ldots, n$\\
   \> \qquad \= $x = x+i$\\
+
   \> return $x$
 \end{tabbing}
 
