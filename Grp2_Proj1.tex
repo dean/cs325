@@ -89,28 +89,17 @@
 \subsection*{Correctness of Claim 2/Algorithm 3}
 
 \begin{theorem}
-  If \emph{$\{y_{j1},y_{j2},...,y_{jt}\}$} is the visible subset of \emph{$\{y_{1},y_{2},...,y_{i-1}\}$} where \emph{$(t \geq i-1)$} then $\{y_{j1},y_{j2},...,y_{jk},y_{i}\}$ is the visible subset of $\{y_{1},y_{2},...,y_{i}\}$ where $y_{jk}$ is the last line such that $y_{jk}(x^{*}) \geq y_{i}(x^{*})$ where $(x^{*},y_{jk}(x^{*}))$ is the point of intersection of the lines $y_{jk}$ and $y_{jk-1}$.
+  If \emph{$\{y_{j1},y_{j2},...,y_{jt}\}$} is the visible subset of \emph{$\{y_{1},y_{2},...,y_{i-1}\}$} where \emph{$(t \leq i-1)$} then $\{y_{j1},y_{j2},...,y_{jk},y_{i}\}$ is the visible subset of $\{y_{1},y_{2},...,y_{i}\}$ where $y_{jk}$ is the last line such that $y_{jk}(x^{*}) \geq y_{i}(x^{*})$ where $(x^{*},y_{jk}(x^{*}))$ is the point of intersection of the lines $y_{jk}$ and $y_{jk-1}$.
 \end{theorem}
 
 \begin{proof}
-prove the theorem here
+Suppose there exists a set of intersecting lines $A$ and that the slope of each line is unique. Further suppose that a subset of those lines $V$ are the only lines in $A$ that are visible when viewed from above. Now, if a new line is appended to $V$, a subset $V_{1}$ is created within $V$ that consists of the original lines within $V$.\newline
+$V$ contains lines $\{y_{j1},\ldots,y_{jt}\}$
+\newline
+$A$ contains lines $\{y_{1},\ldots,y_{i-1}\}$\newline
+Let $y_{i}$ be the line added to $V$ and let $y_{jk}$ be the last line in the set that has an intersection point with the line before it that is greater than the intersection point between itself and the new line (symbolically explained previously).\newline
+In order for a line to be visible, it must have at least one point on it whose x value is greater than the point of intersection between it and the next closest line (Equation 1 on the Visible Lines Handout). Therefore, any new line added to $V$ that is visible must have at least one visible point on it that is greater than the point of intersection between itself and the next closest visible line ($y_{jk}$). If there exists a visible line already in $V$ whose point of intersection between itself and $y_{jk}$ has a greater $x$ value than the $x$ value of the point of intersection with the new line and $y_{jk}$ then this line is no longer visible. However, all visible lines with x-intersect values less than that of the new line will remain visible and thus form a subset $V_{1}$ within $V$.
 \end{proof}
-
-
-Formulae can be set within a line such as this: $f(x,y) = (x+y)(x-y)$
-or set out as in Equation~(\ref{eq:1}).
-\begin{equation}
-  \label{eq:1}
-  f(x,y) = (x+y)(x-y)
-\end{equation}
-Here is an unnumbered multi-line formula:
-\begin{eqnarray*}
-  \label{eq:2}
-  f(x,y) &= & (x+y)(x-y) \\
-  & = & x(x-y) + y(x-y) \\
-  & = & x^2 - xy + xy - y^2 \\
-  & = & x^2-y^2
-\end{eqnarray*}
 
 \subsection*{Experimental Correctness}
 
