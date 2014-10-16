@@ -15,8 +15,6 @@
 \subsection*{Run-time Analysis}
 
 
-\emph{Steps after each algorithm title are placeholders.\newline Add appropriate steps after each algorithm title.}
-
 \begin{tabbing}
   {\sc Algorithm 1: Enumeration}\\
   \qquad \= $n = $number of lines \\
@@ -24,14 +22,16 @@
   \> $i = j+1$\\
   \> $k = i+1$\\
   \> lines$(i,j,k)$ visible = true\\
-  \> while lines$(i,j,k) < n$\\
+  \> for $j < n$\\
+  \> \qquad \= if $i$ or $k \geq n$\\
+  \> \qquad \= \qquad \= $(i,k) = 0$\\
   \> \qquad \= find intersection(lines$(j,k)$)\\
   \> \qquad \= if line$(j) >$ line$(i)$\\
   \> \qquad \= line$(i)$ visible = false\\
   \> \qquad \= $j = j+1$\\
   \> \qquad \= $i = i+1$\\
   \> \qquad \= $k = k+1$\\
-  \> return $x$
+  \> return
 \end{tabbing}
 
 \begin{tabbing}
