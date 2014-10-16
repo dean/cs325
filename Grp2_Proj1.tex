@@ -2,6 +2,8 @@
 
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5}
 
 \newtheorem{theorem}{Theorem}
 
@@ -24,7 +26,7 @@
   \> lines$(i,j,k)$ visible = true\\
   \> for $k < n$\\
   \> \qquad \= $y_{jk}$ = y-intersect(lines$(j,k)$)\\
-  \> \qquad \= $y_{i}$ = [slope(line$(i)$) $*$ y-intersect(lines$(j,k)$,0)]\\
+  \> \qquad \= $y_{i}$ = [slope(line$(i)$) $*$ (y-0-intersect(line$(j)$) - y-0-intersect(line$(k)$))]\\
   \> \qquad \= \qquad \= $+$  [y-intersect(line$(i),0$) $*$ slope(line$(k) -$ slope(line$(j)$)]\\ 
   \> \qquad \= if $y_{jk} > y_{i}$\\
   \> \qquad \= \qquad \= line$(i)$ visible = false\\
@@ -48,7 +50,7 @@
   \> \qquad \= \qquad \= $k = k+1$\\
   \> \qquad \= \qquad \= continue\\
   \> \qquad \= $y_{jk}$ = y-intersect(lines$(j,k)$)\\
-  \> \qquad \= $y_{i}$ = [slope(line$(i)$) $*$ y-intersect(lines$(j,k)$,0)]\\
+  \> \qquad \= $y_{i}$ = [slope(line$(i)$) $*$ (y-0-intersect(line$(j)$) - y-0-intersect(line$(k)$))]\\
   \> \qquad \= \qquad \= $+$  [y-intersect(line$(i),0$) $*$ slope(line$(k) -$ slope(line$(j)$)]\\ 
   \> \qquad \= if $y_{jk} > y_{i}$\\
   \> \qquad \= \qquad \= line$(i)$ visible = false\\
@@ -60,13 +62,31 @@
 
 \begin{tabbing}
   {\sc Algorithm 3: Even Better Enumeration}\\
-  \qquad \= $x = 0$ \\
-  \> for $i = 1, \ldots, n$\\
-  \> \qquad \= $x = x+i$\\
-  \> return $x$
+  \qquad \= $A$ = set of all lines\\
+  \> $V$ = set of visible lines \\
+  \> $V = A$ \\
+  \> $j = 0$\\
+  \> $i = j + 1$\\
+  \> $k = i + 1$\\
+  \> if $V \leq 2$\\
+  \> \qquad return $V$ \\
+  \> for length of $A$\\
+  \> \qquad line1 = $A[j]$\\
+  \> \qquad line2 = $A[i]$\\
+  \> \qquad comparison line = $A[k]$\\
+  \> \qquad y-int = y-intersect(line1,line2)\\
+  \> \qquad comp-int = [slope(comparison line) $*$ (y-0-intersect(line1) - y-0-intersect(line2)]\\
+  \> \qquad \= \qquad \= $+$  [y-intersect$(comparison line,0) *$ (slope(line2) - slope(line1))]\\ 
+  \> \qquad if y-int $<$ comp-int\\
+  \> \qquad \qquad line2 visible = false\\
+  \> \qquad \qquad remove line2 from $V$\\
+  \> \qquad \= $j = j+1$\\
+  \> \qquad \= $i = i+1$\\
+  \> \qquad \= $k = k+1$\\
+  \> return $V$\\
 \end{tabbing}
 
-\subsection*{Correctnes}
+\subsection*{Correctness of Claim 2/Algorithm 3}
 
 \begin{theorem}
   If \emph{$\{y_{j1},y_{j2},...,y_{jt}\}$} is the visible subset of \emph{$\{y_{1},y_{2},...,y_{i-1}\}$} where \emph{$(t \geq i-1)$} then $\{y_{j1},y_{j2},...,y_{jk},y_{i}\}$ is the visible subset of $\{y_{1},y_{2},...,y_{i}\}$ where $y_{jk}$ is the last line such that $y_{jk}(x^{*}) \geq y_{i}(x^{*})$ where $(x^{*},y_{jk}(x^{*}))$ is the point of intersection of the lines $y_{jk}$ and $y_{jk-1}$.
@@ -94,11 +114,54 @@ Here is an unnumbered multi-line formula:
 
 \subsection*{Experimental Correctness}
 
+\emph{Solutions to the instances in the file provided have been submitted to TEACH.}
 
 \subsection*{Experimental Analysis}
 
+% Normal Plot
+\begin{tikzpicture}
+	\begin{axis}[
+	title=time vs. data size,
+	xlabel={$data$},
+	ylabel={$time$},
+	width=190pt,
+	axis x line=bottom, 
+	axis y line=left, 
+	tick align=outside
+	]
+	
+
+		\addplot+[blue,smooth] coordinates {(100,.142428) (200,1.111479) (300,3.739659) (400,8.711271) (500,17.344892) (600,30.563857) (700,48.599125) (800,72.402356) (900,100.940954) (1000,140.711023)};
+		\addplot+[red,smooth] coordinates {(100,.020684) (200,.132277) (300,.387687) (400,.965603) (500,1.85595) (600,2.94132) (700,5.17444) (800,7.366091) (900,10.369579) (1000,14.111496)};
+		\addplot+[green,smooth] coordinates {(100,.000399) (200,.000399) (300,.000529999999999) (400,.000685000000001) (500,.000826000000004) (600,.000957) (700,.00106699999999) (800,.00123300000001) (900,.00135700000004) (1000,.00151199999999) (2000,.00335699999999) (3000,.00521499999996) (4000,.00500099999999) (5000,.00730500000003) (6000,.0122679999999) (7000,.013183) (8000,.011028) (9000,.013519)};
+	\end{axis}
+\end{tikzpicture} %
+
+
+\hskip 10pt %
+
+% Log Log Plot
+\begin{tikzpicture}
+	\begin{loglogaxis}[
+	title= log-log time vs. data size,
+	xlabel={$data$},
+	ylabel={$time$},
+	width=190pt,
+	axis x line=bottom, 
+	axis y line=left, 
+	tick align=outside,
+	]
+		\addplot+[blue,smooth] coordinates {(100,.142428) (200,1.111479) (300,3.739659) (400,8.711271) (500,17.344892) (600,30.563857) (700,48.599125) (800,72.402356) (900,100.940954) (1000,140.711023)};
+		\addplot+[red, smooth] coordinates {(100,.020684) (200,.132277) (300,.387687) (400,.965603) (500,1.85595) (600,2.94132) (700,5.17444) (800,7.366091) (900,10.369579) (1000,14.111496)};
+		\addplot+[green, smooth] coordinates {(100,.000399) (200,.000399) (300,.000529999999999) (400,.000685000000001) (500,.000826000000004) (600,.000957) (700,.00106699999999) (800,.00123300000001) (900,.00135700000004) (1000,.00151199999999) (2000,.00335699999999) (3000,.00521499999996) (4000,.00500099999999) (5000,.00730500000003) (6000,.0122679999999) (7000,.013183) (8000,.011028) (9000,.013519)};
+	\end{loglogaxis}
+\end{tikzpicture} %
 
 \subsection*{Extrapolation and Interpolation}
 
+\begin{enumerate}
+\item The biggest instance that could be solved within one hour is 
+\item 
+\end{enumerate}
 
 \end{document}
