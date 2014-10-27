@@ -7,18 +7,30 @@
 
 \newtheorem{theorem}{Theorem}
 
-\title{CS325 Project 1 Report}
+\title{CS325 Project 2 Report}
 \author{Erika Crowe and Dean Johnson}
 
 \begin{document}
 \maketitle
 
 
+
+
+\subsection*{Correctness of Claim 3}
+
+\begin{theorem}
+If $\{z_{1},\ldots,z_{t}\}$ and $\{z'_{1},\ldots,z'_{s}\}$ are two visible sets of lines (each ordered by increasing slope), then the visible subset of $\{z_{1},\ldots,z_{t}\} \cup \{z'_{1},\ldots,z'_{s}\}$ is $\{z_{1},\ldots,z_{i}\} \cup \{z'_{j},\ldots,z'_{s}\}$
+\end{theorem}
+
+\begin{proof}Let $\{z_{1},\ldots,z_{t}\} \in Z$. Let $\{z'_{1},\ldots,z'_{s}\} \in Z'$.\newline
+
+\end{proof}
+
 \subsection*{Run-time Analysis}
 
 
 \begin{tabbing}
-  {\sc Algorithm 1: Enumeration}\\
+  {\sc Algorithm 4: Divide and Conquer}\\
   \qquad \= $n = $number of lines \\
   \> $j = 0$ \\
   \> $i = j+1$\\
@@ -35,75 +47,6 @@
   \> \qquad \= $k = k+1$\\
   \> return
 \end{tabbing}
-
-\begin{tabbing}
-  {\sc Algorithm 2: Better Enumeration}\\
-  \qquad \= $n = $number of lines \\
-  \> $j = 0$ \\
-  \> $i = j+1$\\
-  \> $k = i+1$\\
-  \> lines$(i,j,k)$ visible = true\\
-  \> for $k < n$\\
-  \> \qquad \= if line$(i)$ visible = false\\
-  \> \qquad \= \qquad \= $j = j+1$\\
-  \> \qquad \= \qquad \= $i = i+1$\\
-  \> \qquad \= \qquad \= $k = k+1$\\
-  \> \qquad \= \qquad \= continue\\
-  \> \qquad \= $y_{jk}$ = y-intersect(lines$(j,k)$)\\
-  \> \qquad \= $y_{i}$ = [slope(line$(i)$) $*$ (y-0-intersect(line$(j)$) - y-0-intersect(line$(k)$))]\\
-  \> \qquad \= \qquad \= $+$  [y-intersect(line$(i),0$) $*$ slope(line$(k) -$ slope(line$(j)$)]\\ 
-  \> \qquad \= if $y_{jk} > y_{i}$\\
-  \> \qquad \= \qquad \= line$(i)$ visible = false\\
-  \> \qquad \= $j = j+1$\\
-  \> \qquad \= $i = i+1$\\
-  \> \qquad \= $k = k+1$\\
-  \> return
-\end{tabbing}
-
-\begin{tabbing}
-  {\sc Algorithm 3: Even Better Enumeration}\\
-  \qquad \= $A$ = set of all lines\\
-  \> $V$ = set of visible lines \\
-  \> $V = A$ \\
-  \> $j = 0$\\
-  \> $i = j + 1$\\
-  \> $k = i + 1$\\
-  \> if $V \leq 2$\\
-  \> \qquad return $V$ \\
-  \> for length of $A$\\
-  \> \qquad line1 = $A[j]$\\
-  \> \qquad line2 = $A[i]$\\
-  \> \qquad comparison line = $A[k]$\\
-  \> \qquad y-int = y-intersect(line1,line2)\\
-  \> \qquad comp-int = [slope(comparison line) $*$ (y-0-intersect(line1) - y-0-intersect(line2)]\\
-  \> \qquad \= \qquad \= $+$  [y-intersect$(comparison line,0) *$ (slope(line2) - slope(line1))]\\ 
-  \> \qquad if y-int $<$ comp-int\\
-  \> \qquad \qquad line2 visible = false\\
-  \> \qquad \qquad remove line2 from $V$\\
-  \> \qquad \= $j = j+1$\\
-  \> \qquad \= $i = i+1$\\
-  \> \qquad \= $k = k+1$\\
-  \> return $V$\\
-\end{tabbing}
-
-\subsubsection*{Asymptotic Analysis}
-
-All three algorithms are $\theta(n)$ to each other. While each algorithm is more efficient than the last, they all iterate through the set of lines at a linear rate. 
-
-\subsection*{Correctness of Claim 2/Algorithm 3}
-
-\begin{theorem}
-  If \emph{$\{y_{j1},y_{j2},...,y_{jt}\}$} is the visible subset of \emph{$\{y_{1},y_{2},...,y_{i-1}\}$} where \emph{$(t \leq i-1)$} then $\{y_{j1},y_{j2},...,y_{jk},y_{i}\}$ is the visible subset of $\{y_{1},y_{2},...,y_{i}\}$ where $y_{jk}$ is the last line such that $y_{jk}(x^{*}) \geq y_{i}(x^{*})$ where $(x^{*},y_{jk}(x^{*}))$ is the point of intersection of the lines $y_{jk}$ and $y_{jk-1}$.
-\end{theorem}
-
-\begin{proof}
-Suppose there exists a set of intersecting lines $A$ and that the slope of each line is unique. Further suppose that a subset of those lines $V$ are the only lines in $A$ that are visible when viewed from above. Now, if a new line is appended to $V$, a subset $V_{1}$ is created within $V$ that consists of the original lines within $V$.\newline
-$V$ contains lines $\{y_{j1},\ldots,y_{jt}\}$
-\newline
-$A$ contains lines $\{y_{1},\ldots,y_{i-1}\}$\newline
-Let $y_{i}$ be the line added to $V$ and let $y_{jk}$ be the last line in the set that has an intersection point with the line before it that is greater than the intersection point between itself and the new line (symbolically explained previously).\newline
-In order for a line to be visible, it must have at least one point on it whose x value is greater than the point of intersection between it and the next closest line (Equation 1 on the Visible Lines Handout). Therefore, any new line added to $V$ that is visible must have at least one visible point on it that is greater than the point of intersection between itself and the next closest visible line ($y_{jk}$). If there exists a visible line already in $V$ whose point of intersection between itself and $y_{jk}$ has a greater $x$ value than the $x$ value of the point of intersection with the new line and $y_{jk}$ then this line is no longer visible. However, all visible lines with x-intersect values less than that of the new line will remain visible and thus form a subset $V_{1}$ within $V$.
-\end{proof}
 
 \subsection*{Experimental Correctness}
 
