@@ -40,20 +40,11 @@ The alternating line comparisons between $Z$ and $Z'$ continue until there are e
 
 \begin{tabbing}
   {\sc Algorithm 4: Divide and Conquer}\\
-  \qquad \= $n = $number of lines \\
-  \> $j = 0$ \\
-  \> $i = j+1$\\
-  \> $k = i+1$\\
-  \> lines$(i,j,k)$ visible = true\\
-  \> for $k < n$\\
-  \> \qquad \= $y_{jk}$ = y-intersect(lines$(j,k)$)\\
-  \> \qquad \= $y_{i}$ = [slope(line$(i)$) $*$ (y-0-intersect(line$(j)$) - y-0-intersect(line$(k)$))]\\
-  \> \qquad \= \qquad \= $+$  [y-intersect(line$(i),0$) $*$ slope(line$(k) -$ slope(line$(j)$)]\\ 
-  \> \qquad \= if $y_{jk} > y_{i}$\\
-  \> \qquad \= \qquad \= line$(i)$ visible = false\\
-  \> \qquad \= $j = j+1$\\
-  \> \qquad \= $i = i+1$\\
-  \> \qquad \= $k = k+1$\\
+  \qquad \= $n = $ \textbf{add algorithm here} \\
+  \> $\ldots$ \\
+  \> \qquad \= \ldots\\
+  \> \qquad \= \qquad \= \ldots\\ 
+  \> \qquad \= \ldots\\
   \> return
 \end{tabbing}
 
@@ -107,13 +98,14 @@ The alternating line comparisons between $Z$ and $Z'$ continue until there are e
 \subsection*{Extrapolation and Interpolation}
 
 \begin{enumerate}
-\item \emph{The biggest instances that could be solved within one hour were not able to be determined.}
+\item \textbf{Answer still needs to be found.}
 \item \begin{enumerate}
 \item Algorithm 1 (blue) slope is $\frac{\log(48.599125/8.711271)}{\log(700/400)} = 3.072$
 \item Algorithm 2 (red) slope is $\frac{\log(5.17444/.965603}{700/400} = 2.99$
 \item Algorithm 3 (green) slope is $\frac{\log(.00106699999999/.000685000000001}{700/400} = .792$
+\item Algorithm 4 (orange) slope is $\frac{\log(.000151000000002/.0000660000000003}{700/400} = .2054$
 \end{enumerate}
-It appears that Algorithms 1 and 2 are similar enough to each other to be $\theta$ to each other, but Algorithm 3 increases at such a lower rate that it is closer to $O$ for both 1 and 2.
+\textbf{Needs run-time analysis to compare asymptotic running times.}
 \end{enumerate}
 
 \end{document}
