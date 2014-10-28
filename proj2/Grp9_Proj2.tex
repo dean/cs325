@@ -7,18 +7,39 @@
 
 \newtheorem{theorem}{Theorem}
 
-\title{CS325 Project 1 Report}
+\title{CS325 Project 2 Report}
 \author{Erika Crowe and Dean Johnson}
 
 \begin{document}
 \maketitle
 
 
+
+
+\subsection*{Correctness of Claim 3}
+
+\begin{theorem}
+If $\{z_{1},\ldots,z_{t}\}$ and $\{z'_{1},\ldots,z'_{s}\}$ are two visible sets of lines (each ordered by increasing slope), then the visible subset of $\{z_{1},\ldots,z_{t}\} \cup \{z'_{1},\ldots,z'_{s}\}$ is $\{z_{1},\ldots,z_{i}\} \cup \{z'_{j},\ldots,z'_{s}\}$ for some $i \geq 1$ and $j \leq s$.
+\end{theorem}
+
+\begin{proof}
+Let $\{z_{1},\ldots,z_{t}\} \in Z$. Let $\{z'_{1},\ldots,z'_{s}\} \in Z'$.
+
+Let both $Z$ and $Z'$ contain only visible lines in their respective sets. The slopes of all lines in both $Z$ and $Z'$ are ordered by (strictly) increasing slope such that the slope of $z_{t}$ is strictly less than the slope of $z'_{1}$. If both $Z$ and $Z'$ are joined together ($Z \cup Z'$) then there will be subsets of $Z$ and $Z'$ comprised of the visible lines found in $Z \cup Z'$, known as $V$ and $V'$ respectively. These visible subsets are joined as $V \cup V'$.\newline
+
+Because the the slope of $Z[0]$ (or $z_{1}$) and the slope of $Z'[s]$ (or $z'_{s}$) are steeper than the the remaining slopes in their respective sets (because of the slope ordering mentioned above), these two lines will always be visible and are immediately added to $V$ and $V'$ respectively.\newline
+
+To find the remaining visible subset of $Z \cup Z'$, we first find the visibility of the line $Z[1]$ (as it has the next steepest slope in $Z$) by using the line comparison method proved in Project 1. If $Z[1]$ is found to not be visible, all of the other lines in $Z$ after $Z[1]$ are not visible either because any line in the set after $Z[1]$ has a slope that is less steep than $Z[1]$ and will thus be found to not be visible if compared to $Z'$ on their own. If $Z[1]$ is visible, it is added to $V$.\newline
+
+Once a line in $Z$ has been found to be visible or not visible, the line in $Z'$ with the next-steepest slope to $Z'[s]$, $Z'[s-1]$, is determined to be visible or not visible by the method proved in Project 1. If $Z'[s-1]$ is found to not be visible then the remaining lines in $Z'$ are also not visible because their slopes are less steep than $Z'[s-1]$ and they would be found to be not visible if compared to lines in $Z$ on their own. If $Z'[s-1]$ is found to be visible, it is added to $V'$.\newline
+
+The alternating line comparisons between $Z$ and $Z'$ continue until there are either no lines remaining to compare in $Z$ or no lines remaining to compare in $Z'$. Any lines left in the remaining set are now known to be visible because there are no lines left in the empty set that could make them not visible. These remaining lines are then added to their respective subset, and the visible subset $V \cup V'$ is complete.\end{proof}
+
 \subsection*{Run-time Analysis}
 
 
 \begin{tabbing}
-  {\sc Algorithm 1: Enumeration}\\
+  {\sc Algorithm 4: Divide and Conquer}\\
   \qquad \= $n = $number of lines \\
   \> $j = 0$ \\
   \> $i = j+1$\\
@@ -35,75 +56,6 @@
   \> \qquad \= $k = k+1$\\
   \> return
 \end{tabbing}
-
-\begin{tabbing}
-  {\sc Algorithm 2: Better Enumeration}\\
-  \qquad \= $n = $number of lines \\
-  \> $j = 0$ \\
-  \> $i = j+1$\\
-  \> $k = i+1$\\
-  \> lines$(i,j,k)$ visible = true\\
-  \> for $k < n$\\
-  \> \qquad \= if line$(i)$ visible = false\\
-  \> \qquad \= \qquad \= $j = j+1$\\
-  \> \qquad \= \qquad \= $i = i+1$\\
-  \> \qquad \= \qquad \= $k = k+1$\\
-  \> \qquad \= \qquad \= continue\\
-  \> \qquad \= $y_{jk}$ = y-intersect(lines$(j,k)$)\\
-  \> \qquad \= $y_{i}$ = [slope(line$(i)$) $*$ (y-0-intersect(line$(j)$) - y-0-intersect(line$(k)$))]\\
-  \> \qquad \= \qquad \= $+$  [y-intersect(line$(i),0$) $*$ slope(line$(k) -$ slope(line$(j)$)]\\ 
-  \> \qquad \= if $y_{jk} > y_{i}$\\
-  \> \qquad \= \qquad \= line$(i)$ visible = false\\
-  \> \qquad \= $j = j+1$\\
-  \> \qquad \= $i = i+1$\\
-  \> \qquad \= $k = k+1$\\
-  \> return
-\end{tabbing}
-
-\begin{tabbing}
-  {\sc Algorithm 3: Even Better Enumeration}\\
-  \qquad \= $A$ = set of all lines\\
-  \> $V$ = set of visible lines \\
-  \> $V = A$ \\
-  \> $j = 0$\\
-  \> $i = j + 1$\\
-  \> $k = i + 1$\\
-  \> if $V \leq 2$\\
-  \> \qquad return $V$ \\
-  \> for length of $A$\\
-  \> \qquad line1 = $A[j]$\\
-  \> \qquad line2 = $A[i]$\\
-  \> \qquad comparison line = $A[k]$\\
-  \> \qquad y-int = y-intersect(line1,line2)\\
-  \> \qquad comp-int = [slope(comparison line) $*$ (y-0-intersect(line1) - y-0-intersect(line2)]\\
-  \> \qquad \= \qquad \= $+$  [y-intersect$(comparison line,0) *$ (slope(line2) - slope(line1))]\\ 
-  \> \qquad if y-int $<$ comp-int\\
-  \> \qquad \qquad line2 visible = false\\
-  \> \qquad \qquad remove line2 from $V$\\
-  \> \qquad \= $j = j+1$\\
-  \> \qquad \= $i = i+1$\\
-  \> \qquad \= $k = k+1$\\
-  \> return $V$\\
-\end{tabbing}
-
-\subsubsection*{Asymptotic Analysis}
-
-All three algorithms are $\theta(n)$ to each other. While each algorithm is more efficient than the last, they all iterate through the set of lines at a linear rate. 
-
-\subsection*{Correctness of Claim 2/Algorithm 3}
-
-\begin{theorem}
-  If \emph{$\{y_{j1},y_{j2},...,y_{jt}\}$} is the visible subset of \emph{$\{y_{1},y_{2},...,y_{i-1}\}$} where \emph{$(t \leq i-1)$} then $\{y_{j1},y_{j2},...,y_{jk},y_{i}\}$ is the visible subset of $\{y_{1},y_{2},...,y_{i}\}$ where $y_{jk}$ is the last line such that $y_{jk}(x^{*}) \geq y_{i}(x^{*})$ where $(x^{*},y_{jk}(x^{*}))$ is the point of intersection of the lines $y_{jk}$ and $y_{jk-1}$.
-\end{theorem}
-
-\begin{proof}
-Suppose there exists a set of intersecting lines $A$ and that the slope of each line is unique. Further suppose that a subset of those lines $V$ are the only lines in $A$ that are visible when viewed from above. Now, if a new line is appended to $V$, a subset $V_{1}$ is created within $V$ that consists of the original lines within $V$.\newline
-$V$ contains lines $\{y_{j1},\ldots,y_{jt}\}$
-\newline
-$A$ contains lines $\{y_{1},\ldots,y_{i-1}\}$\newline
-Let $y_{i}$ be the line added to $V$ and let $y_{jk}$ be the last line in the set that has an intersection point with the line before it that is greater than the intersection point between itself and the new line (symbolically explained previously).\newline
-In order for a line to be visible, it must have at least one point on it whose x value is greater than the point of intersection between it and the next closest line (Equation 1 on the Visible Lines Handout). Therefore, any new line added to $V$ that is visible must have at least one visible point on it that is greater than the point of intersection between itself and the next closest visible line ($y_{jk}$). If there exists a visible line already in $V$ whose point of intersection between itself and $y_{jk}$ has a greater $x$ value than the $x$ value of the point of intersection with the new line and $y_{jk}$ then this line is no longer visible. However, all visible lines with x-intersect values less than that of the new line will remain visible and thus form a subset $V_{1}$ within $V$.
-\end{proof}
 
 \subsection*{Experimental Correctness}
 
