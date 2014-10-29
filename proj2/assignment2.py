@@ -58,39 +58,6 @@ def alg3(lines):
     return lines
 
 
-def alg4(lines):
-    half = len(lines)//2
-    first, last = lines[:half], lines[half:][::-1]
-    left, right = first[0], last[0]
-    left_mark_false, right_mark_false = False, False
-    for i, j in zip(range(1, len(first)), range(1, len(last))):
-        if not left_mark_false:
-            to_comp = first[i]
-            left_right_y = find_y_intersection(left, right)
-            comp_y = to_comp.m * (left.b - right.b) + to_comp.b * (right.m - left.m)
-            if left_right_y > comp_y:
-                to_comp.visible = False
-                left_mark_false = True
-                for line in first[i:]:
-                    line.visible = False
-            else:
-                left = to_comp
-
-        if not right_mark_false:
-            to_comp = last[j]
-            left_right_y = find_y_intersection(left, right)
-            comp_y = to_comp.m * (left.b - right.b) + to_comp.b * (right.m - left.m)
-            if left_right_y > comp_y:
-                to_comp.visible = False
-                right_mark_false = True
-                for line in last[j:]:
-                    line.visible = False
-            else:
-                right = to_comp
-
-    return lines
-
-
 def filter_covered(visible):
     if len(visible) <= 2:
         return visible
@@ -105,6 +72,66 @@ def filter_covered(visible):
         return filter_covered(visible)
     else:
         return visible
+
+
+def alg4(lines):
+    vis_lines = alg4_helper(lines)
+    for line in lines:
+        if line not in vis_lines:
+            line.visible = False
+    return lines
+
+
+def alg4_helper(lines):
+    if len(lines) <= 1:
+        return lines
+
+    half = len(lines)//2
+    left = alg4_helper(lines[:half])
+    right = alg4_helper(lines[half:])
+    vis_lines = merge_visible_lines(left, right)
+    return vis_lines
+
+
+def merge_visible_lines(left, right):
+    right = right[::-1] # Reverses so it's easier to index
+    i, j = 1, 1
+    check_left, check_right = len(left) > 1, len(right) > 1
+    while (i < len(left) and check_left) or (j < len(right) and check_right):
+        if check_left and i < len(left):
+            to_comp = left[i]
+            left_right_y = find_y_intersection(left[i-1], right[j-1])
+            comp_y = to_comp.m * (left[i-1].b - right[j-1].b) + to_comp.b * (right[j-1].m - left[i-1].m)
+            if left_right_y > comp_y:
+                check_left = False
+            else:
+                i += 1
+                if j - 2 >= 0:  # Ensure we don't cover the other side's recent line
+                    to_comp = right[j-1]
+                    new_intersect_y = find_y_intersection(left[i-1], right[j-2])
+                    comp_y = to_comp.m * (left[i-1].b - right[j-2].b) + to_comp.b * (right[j-2].m - left[i-1].m)
+                    if new_intersect_y > comp_y:
+                        check_right = False
+                        j-=1
+
+        if check_right and j < len(right):
+            to_comp = right[j]
+            left_right_y = find_y_intersection(left[i-1], right[j-1])
+            comp_y = to_comp.m * (left[i-1].b - right[j-1].b) + to_comp.b * (right[j-1].m - left[i-1].m)
+            if left_right_y > comp_y:
+                check_right = False
+            else:
+                j += 1
+                if i - 2 >= 0:  # Ensure we don't cover the other side's recent line
+                    to_comp = right[i-1]
+                    new_intersect_y = find_y_intersection(left[i-2], right[j-1])
+                    comp_y = to_comp.m * (left[i-2].b - right[j-1].b) + to_comp.b * (right[j-1].m - left[i-2].m)
+                    if new_intersect_y > comp_y:
+                        check_left = False
+                        j+=1
+
+    vis_lines = left[:i] + right[:j+1]
+    return vis_lines
 
 
 if __name__ == '__main__':
