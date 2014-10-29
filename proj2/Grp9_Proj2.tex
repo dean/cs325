@@ -37,69 +37,68 @@ The alternating line comparisons between $Z$ and $Z'$ continue until there are e
 
 \subsection*{Run-time Analysis}
 
-Alg 4 - O(n) and \Omega(log n)
+Algorithm 4 - $O(n)$ and $\Omega(log n)$
 
 \begin{tabbing}
   {\sc Algorithm 4: Divide and Conquer}\\
-  \qquad \= $n = $ \textbf{add algorithm here} \\
-  1. define function algorithm4 which takes an array of lines (m, x, visibility=True)
-  2. define function algorithm4\_helper that splits the lines array and begins
-     recursively sending them to merge\_visible\_lines
-  3. define function merge\_visible\_lines that takes a left and right set of lines
 
-  algorithm4(lines):
-    vis\_lines = alg4\_helper(lines)
-    mark all lines not in vis\_lines as invisible
-    return lines
 
-  algorithm4\_helper(lines):
-    if we have 1 or less lines:
-      return lines
+  \qquad \= 1. define function algorithm4 which takes an array of lines (m, x, visibility=True) \\
+  \> 2. define function algorithm4\_helper that splits the lines array and begins recursively sending them to merge\_visible\_lines \\
+  \> 3. define function merge\_visible\_lines that takes a left and right set of lines\\
+  \> \\
 
-    half = len(lines) // 2 (using integer division)
-    left = algorithm4\_helper(lines[:half])
-    right = algorithm4\_helper(lines[half:])
-    vis\_lines = merge\_visible(left, right)
-    return vis\_lines
+  \> algorithm4(lines): \\
+    \> \qquad \= vis\_lines = alg4\_helper(lines)\\
+    \> \qquad \= mark all lines not in vis\_lines as invisible\\
+    \> \qquad \= return lines\\
+    \> \\
 
-  merge\_visible\_lines(left, right):
-    right = reverse right (this helps with logically applying indices)
-    i = 1
-    j = 1
-    check\_left = is there more than 1 element in left?
-    check\_right = is there more than 1 element in right?
-    while elements are left in both sets and the indices point to elements that exist:
-      if the left side has elements and the index refers to an exisiting element:
-        calc = is left[i] visible within the set \{left[i-1], left[i], right[j-1]\}?
-        if calc:
-          check\_left = False
-        else:
-          i+=1
-          if j - 2 >= 0:
-            calculate is right[j-1] covered by the new addition of left[i]?
-            calc = is right[j-1] visible within the set \{left[i-1], right[j-1], right[j-2]\}
-            if calc:
-              check\_right = False
-              j-=1
-      if the right side has elements and the index refers to an exisiting element:
-        calc = is right[j] visible within the set \{left[i-1], right[j], right[j-1]\}?
-        if calc:
-          check\_left = False
-        else:
-          j+=1
-          if i - 2 >= 0:
-            calculate is left[i-1] covered by the new addition of right[j]?
-            calc = is left[i-1] visible within the set \{right[j-1], left[i-1], left[i-2]\}
-            if calc:
-              check\_right = False
-              j-=1
-
-  \> $\ldots$ \\
-  \> \qquad \= \ldots\\
-  \> \qquad \= \qquad \= \ldots\\ 
-  \> \qquad \= \ldots\\
-  \> return
+  \> algorithm4\_helper(lines):\\
+    \> \qquad \= if we have 1 or less lines: \\
+      \> \qquad \qquad \= return lines \\
+\> \\
+    \> half = len(lines) // 2 (using integer division)\\
+    \> left = algorithm4\_helper(lines[:half]\\
+    \> right = algorithm4\_helper(lines[half:])\\
+    \> vis\_lines = merge\_visible(left, right)\\
+    \> return vis\_lines \\
+\> \\
+  \> merge\_visible\_lines(left, right):\\
+    \> \qquad \= right = reverse right (this helps with logically applying indices)\\
+    \> \qquad \= i = 1\\
+    \> \qquad \= j = 1\\
+    \> \qquad \= check\_left = is there more than 1 element in left?\\
+    \> \qquad \= check\_right = is there more than 1 element in right?\\
+    \> \qquad \= while elements are left in both sets and the indices point to elements that exist:\\
+      \> \qquad \qquad \= if the left side has elements and the index refers to an exisiting element:\\
+        \> \qquad \qquad\qquad \= calc = is left[i] visible within the set \{left[i-1], left[i], right[j-1]\}?\\
+        \> \qquad \qquad \= if calc:\\
+          \> \qquad \qquad \qquad \= check\_left = False\\
+        \> \qquad \qquad \= else:\\
+          \> \qquad \qquad \qquad \= i+=1\\
+          \> \qquad \qquad \= if j - 2 $\geq$ 0:\\
+            \> \qquad \qquad \qquad \= calculate is right[j-1] covered by the new addition of left[i]?\\
+            \> \qquad \qquad \qquad \= calc = is right[j-1] visible within the set \{left[i-1], right[j-1], right[j-2]\}\\
+            \> \qquad \qquad \= if calc:\\
+              \> \qquad \qquad \qquad \= check\_right = False\\
+              \> \qquad \qquad \qquad \= j-=1\\
+      \> \qquad \qquad \= if the right side has elements and the index refers to an exisiting element:\\
+        \> \qquad \qquad \qquad \= calc = is right[j] visible within the set \{left[i-1], right[j], right[j-1]\}?\\
+        \> \qquad \qquad \= if calc:\\
+          \> \qquad \qquad \qquad \= check\_left = False\\
+        \> \qquad \qquad \= else:\\
+          \> \qquad \qquad \qquad \= j+=1\\
+          \> \qquad \qquad \= if i - 2 $\geq$ 0:\\
+            \> \qquad \qquad \qquad \= calculate is left[i-1] covered by the new addition of right[j]?\\
+            \> \qquad \qquad \qquad \= calc = is left[i-1] visible within the set \{right[j-1], left[i-1], left[i-2]\}\\
+            \> \qquad \qquad \= if calc:\\
+              \> \qquad \qquad \qquad \= check\_right = False\\
+              \> \qquad \qquad \qquad \= j-=1\\
+  \> \qquad \= return
 \end{tabbing}
+
+\pagebreak 
 
 \subsection*{Experimental Correctness}
 
@@ -124,7 +123,7 @@ Alg 4 - O(n) and \Omega(log n)
 		\addplot+[blue,smooth] coordinates {(100,.142428) (200,1.111479) (300,3.739659) (400,8.711271) (500,17.344892) (600,30.563857) (700,48.599125) (800,72.402356) (900,100.940954) (1000,140.711023)};
 		\addplot+[red,smooth] coordinates {(100,.020684) (200,.132277) (300,.387687) (400,.965603) (500,1.85595) (600,2.94132) (700,5.17444) (800,7.366091) (900,10.369579) (1000,14.111496)};
 		\addplot+[green,smooth] coordinates {(100,.000399) (200,.000399) (300,.000529999999999) (400,.000685000000001) (500,.000826000000004) (600,.000957) (700,.00106699999999) (800,.00123300000001) (900,.00135700000004) (1000,.00151199999999) (2000,.00335699999999) (3000,.00521499999996) (4000,.00500099999999) (5000,.00730500000003) (6000,.0122679999999) (7000,.013183) (8000,.011028) (9000,.013519)};
-		\addplot+[purple,smooth] coordinates {(100,.000035) (200,.0000439999999999) (300,.000051999999999) (400,.0000660000000003) (500,.0000960000000063) (600,.000114000000011) (700,.000151000000002) (800,.000143000000008) (900,.000164999999981) (1000,.000181999999995) (2000,.000448000000006) (3000,.000790999999992) (4000,.000840000000039) (5000,.00109199999997) (6000,.00165299999998) (7000,.00548400000002) (8000,.00234699999999) (9000,.00269900000001)};
+		\addplot+[purple,smooth] coordinates {(100,.00065) (200,.001526) (300,.001844) (400,.001813) (500,.001966) (600,.002915) (700,.003508) (800,.004479) (900,.00379500000003) (1000,.004299) (2000,.00907100000001) (3000,.0168) (4000,.015832) (5000,.024896) (6000,.030455) (7000,.038316) (8000,.030843) (9000,.049445)};
 		
 \legend{$A1$,$A2$,$A3$,$A4$}
 	\end{axis}
@@ -148,7 +147,7 @@ Alg 4 - O(n) and \Omega(log n)
 		\addplot+[blue,smooth] coordinates {(100,.142428) (200,1.111479) (300,3.739659) (400,8.711271) (500,17.344892) (600,30.563857) (700,48.599125) (800,72.402356) (900,100.940954) (1000,140.711023)};
 		\addplot+[red, smooth] coordinates {(100,.020684) (200,.132277) (300,.387687) (400,.965603) (500,1.85595) (600,2.94132) (700,5.17444) (800,7.366091) (900,10.369579) (1000,14.111496)};
 		\addplot+[green, smooth] coordinates {(100,.000399) (200,.000399) (300,.000529999999999) (400,.000685000000001) (500,.000826000000004) (600,.000957) (700,.00106699999999) (800,.00123300000001) (900,.00135700000004) (1000,.00151199999999) (2000,.00335699999999) (3000,.00521499999996) (4000,.00500099999999) (5000,.00730500000003) (6000,.0122679999999) (7000,.013183) (8000,.011028) (9000,.013519)};
-		\addplot+[purple,smooth] coordinates {(100,.000035) (200,.0000439999999999) (300,.000051999999999) (400,.0000660000000003) (500,.0000960000000063) (600,.000114000000011) (700,.000151000000002) (800,.000143000000008) (900,.000164999999981) (1000,.000181999999995) (2000,.000448000000006) (3000,.000790999999992) (4000,.000840000000039) (5000,.00109199999997) (6000,.00165299999998) (7000,.00548400000002) (8000,.00234699999999) (9000,.00269900000001)};
+		\addplot+[purple,smooth] coordinates {(100,.00065) (200,.001526) (300,.001844) (400,.001813) (500,.001966) (600,.002915) (700,.003508) (800,.004479) (900,.00379500000003) (1000,.004299) (2000,.00907100000001) (3000,.0168) (4000,.015832) (5000,.024896) (6000,.030455) (7000,.038316) (8000,.030843) (9000,.049445)};
 	
 \legend{$A1$,$A2$,$A3$,$A4$}	
 	\end{loglogaxis}
@@ -165,18 +164,17 @@ instance size $x = ?$
   \label{Extrapolation}
   y & = & mx+b \\
   x & = & y/m - b \\
-  x & = & 3600s/.2054 - 0 \\
-  x & \approx & 17527  
+  x & = & 3600s/.1638 - 0 \\
+  x & \approx & 21978  
 \end{eqnarray*}
-An instance size of approximately 17527 elements can be solved in one hour with Algorithm 4.
+An instance size of approximately 21978 elements can be solved in one hour with Algorithm 4.
 \pagebreak 
 \item \begin{enumerate}
 \item Algorithm 1 slope is $\frac{\log(48.599125/8.711271)}{\log(700/400)} = 3.072$
 \item Algorithm 2 slope is $\frac{\log(5.17444/.965603}{700/400} = 2.99$
 \item Algorithm 3 slope is $\frac{\log(.00106699999999/.000685000000001}{700/400} = .792$
-\item Algorithm 4 slope is $\frac{\log(.000151000000002/.0000660000000003}{700/400} = .2054$
+\item Algorithm 4 slope is $\frac{\log(.003508/.001813)}{700/400} = .1638$
 \end{enumerate}
-\textbf{Needs run-time analysis to compare asymptotic running times.}
 \end{enumerate}
 
 \end{document}
