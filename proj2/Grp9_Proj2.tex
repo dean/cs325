@@ -37,10 +37,63 @@ The alternating line comparisons between $Z$ and $Z'$ continue until there are e
 
 \subsection*{Run-time Analysis}
 
+Alg 4 - O(n) and \Omega(log n)
 
 \begin{tabbing}
   {\sc Algorithm 4: Divide and Conquer}\\
   \qquad \= $n = $ \textbf{add algorithm here} \\
+  1. define function algorithm4 which takes an array of lines (m, x, visibility=True)
+  2. define function algorithm4\_helper that splits the lines array and begins
+     recursively sending them to merge\_visible\_lines
+  3. define function merge\_visible\_lines that takes a left and right set of lines
+
+  algorithm4(lines):
+    vis\_lines = alg4\_helper(lines)
+    mark all lines not in vis\_lines as invisible
+    return lines
+
+  algorithm4\_helper(lines):
+    if we have 1 or less lines:
+      return lines
+
+    half = len(lines) // 2 (using integer division)
+    left = algorithm4\_helper(lines[:half])
+    right = algorithm4\_helper(lines[half:])
+    vis\_lines = merge\_visible(left, right)
+    return vis\_lines
+
+  merge\_visible\_lines(left, right):
+    right = reverse right (this helps with logically applying indices)
+    i = 1
+    j = 1
+    check\_left = is there more than 1 element in left?
+    check\_right = is there more than 1 element in right?
+    while elements are left in both sets and the indices point to elements that exist:
+      if the left side has elements and the index refers to an exisiting element:
+        calc = is left[i] visible within the set \{left[i-1], left[i], right[j-1]\}?
+        if calc:
+          check\_left = False
+        else:
+          i+=1
+          if j - 2 >= 0:
+            calculate is right[j-1] covered by the new addition of left[i]?
+            calc = is right[j-1] visible within the set \{left[i-1], right[j-1], right[j-2]\}
+            if calc:
+              check\_right = False
+              j-=1
+      if the right side has elements and the index refers to an exisiting element:
+        calc = is right[j] visible within the set \{left[i-1], right[j], right[j-1]\}?
+        if calc:
+          check\_left = False
+        else:
+          j+=1
+          if i - 2 >= 0:
+            calculate is left[i-1] covered by the new addition of right[j]?
+            calc = is left[i-1] visible within the set \{right[j-1], left[i-1], left[i-2]\}
+            if calc:
+              check\_right = False
+              j-=1
+
   \> $\ldots$ \\
   \> \qquad \= \ldots\\
   \> \qquad \= \qquad \= \ldots\\ 
